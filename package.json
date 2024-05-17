@@ -1,0 +1,13 @@
+{
+  "name": "service-monitor-app",
+  "version": "1.0.0",
+  "description": "A service monitoring application",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.9.10",
+    "axios": "^0.21.1"
+  }
+}
