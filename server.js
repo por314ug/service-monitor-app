@@ -4,7 +4,7 @@ const axios = require('axios');
 const app = express();
 app.use(express.json());
 
-const serviceSchema = new mongoose.Schema({
+const serviceTestingSchema = new mongoose.Schema({
     url: String,
     status: String,
     lastChecked: Date
