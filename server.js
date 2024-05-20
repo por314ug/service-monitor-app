@@ -13,19 +13,48 @@ const serviceTestingSchema = new mongoose.Schema({
 const Service = mongoose.model('Service', serviceTestingSchema);
 
 app.get('/services', async (req, res) => {
-    const services = await Service.find();
-    res.send(services);
+    try {
+        const services = await Service.find();
+        console.log('Fetched services:', services);
+        res.send(services);
+    } catch (error) {
+        console.error('Error fetching services:', error);
+        res.status(500).send('Error fetching services');
+    }
 });
 
 app.post('/services', async (req, res) => {
-    const service = new Service({ url: req.body.url, status: 'Pending', lastChecked: new Date() });
-    const response = await axios.get(req.body.url);
-    service.status = response.status === 200 ? 'Up' : 'Down';
-    await service.save();
-    res.send(service);
+    try {
+        const service = new Service({ url: req.body.url, status: 'Pending', lastChecked: new Date() });
+        const response = await axios.get(req.body.url);
+        service.status = response.status === 200 ? 'Up' : 'Down';
+        await service.save();
+        res.send(service);
+    } catch (error) {
+        console.error('Error creating service:', error);
+        res.status(500).send('Error creating service');
+    }
 });
 
-mongoose.connect('mongodb://mongo:27017/monitor', { useNewUrlParser: true, useUnifiedTopology: true });
+// Endpoint for adding sample data
+app.post('/add-sample', async (req, res) => {
+    try {
+        const sampleService = new Service({ url: 'http://example.com', status: 'Pending', lastChecked: new Date() });
+        await sampleService.save();
+        res.send(sampleService);
+    } catch (error) {
+        console.error('Error adding sample service:', error);
+        res.status(500).send('Error adding sample service');
+    }
+});
+
+mongoose.connect('mongodb://mongo:27017/monitor', { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => {
+        console.log('Connected to MongoDB');
+    })
+    .catch((err) => {
+        console.error('Failed to connect to MongoDB', err);
+    });
 
 app.listen(6000, () => {
     console.log('Server is running on port 6000');
