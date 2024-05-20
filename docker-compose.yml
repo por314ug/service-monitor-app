@@ -3,7 +3,7 @@ services:
   app:
     build: .
     ports:
-      - "6000:6000"
+      - "5000:5000"
     depends_on:
       - mongo
   mongo:
