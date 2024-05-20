@@ -56,6 +56,6 @@ mongoose.connect('mongodb://mongo:27017/monitor', { useNewUrlParser: true, useUn
         console.error('Failed to connect to MongoDB', err);
     });
 
-app.listen(6000, () => {
-    console.log('Server is running on port 6000');
+app.listen(5000, () => {
+    console.log('Server is running on port 5000');
 });
